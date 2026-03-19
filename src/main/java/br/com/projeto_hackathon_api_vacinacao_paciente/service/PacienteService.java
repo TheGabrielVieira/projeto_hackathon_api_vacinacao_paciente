@@ -1,5 +1,7 @@
 package br.com.projeto_hackathon_api_vacinacao_paciente.service;
 
+import br.com.projeto_hackathon_api_vacinacao_paciente.dto.PacienteRequestDTO;
+import br.com.projeto_hackathon_api_vacinacao_paciente.dto.PacienteResponseDTO;
 import br.com.projeto_hackathon_api_vacinacao_paciente.model.PacienteModel;
 import br.com.projeto_hackathon_api_vacinacao_paciente.repository.PacienteRepository;
 import org.springframework.stereotype.Service;
@@ -10,6 +12,25 @@ import java.util.List;
 public class PacienteService {
 
     private final PacienteRepository repository;
+
+    private PacienteModel toEntity(PacienteRequestDTO dto) {
+        PacienteModel paciente = new PacienteModel();
+        paciente.setNome(dto.getNome());
+        paciente.setCpf(dto.getCpf());
+        paciente.setSexo(dto.getSexo());
+        paciente.setDataNascimento(dto.getDataNascimento());
+        return paciente;
+    }
+
+    private PacienteResponseDTO toDTO(PacienteModel paciente) {
+        return new PacienteResponseDTO(
+                paciente.getId(),
+                paciente.getNome(),
+                paciente.getCpf(),
+                paciente.getSexo(),
+                paciente.getDataNascimento()
+        );
+    }
 
     public PacienteService(PacienteRepository repository) {
         this.repository = repository;
