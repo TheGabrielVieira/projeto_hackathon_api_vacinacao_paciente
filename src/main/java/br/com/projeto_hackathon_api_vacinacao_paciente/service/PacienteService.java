@@ -68,4 +68,6 @@ public class PacienteService {
     public void deletar(Long id) {
         repository.deleteById(id);
     }
+
+
 }
