@@ -37,7 +37,7 @@ public class ImunizacaoModel {
 
     @ManyToOne
     @JoinColumn(name = "id_dose", nullable = false)
-    private PacienteModel dose;
+    private DoseModel dose;
     
     @Column(name = "data_aplicacao", nullable = false)
     private LocalDate dataAplicacao;

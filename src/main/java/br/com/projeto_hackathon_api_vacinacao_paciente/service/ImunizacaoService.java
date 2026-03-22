@@ -2,12 +2,12 @@ package br.com.projeto_hackathon_api_vacinacao_paciente.service;
 
 import java.time.LocalDate;
 import java.util.List;
-
 import org.springframework.stereotype.Service;
-
 import br.com.projeto_hackathon_api_vacinacao_paciente.model.ImunizacaoModel;
 import br.com.projeto_hackathon_api_vacinacao_paciente.repository.ImunizacaoRepository;
+import jakarta.transaction.Transactional;
 
+@Transactional
 @Service
 public class ImunizacaoService {
 
@@ -43,8 +43,16 @@ public class ImunizacaoService {
         return repository.save(existente);
     }
 
-    public void deletar(Long id){
+    public boolean deletar(Long id){
+       
+        boolean existeId = repository.existsById(id); 
+       
+        if(!existeId) {
+            throw new RuntimeException("Id da imunização não encontrada: " + id);
+        }
+
         repository.deleteById(id);
+        return true;
     }
 
     public void deletarTodasImunizacoes(){
@@ -63,6 +71,13 @@ public class ImunizacaoService {
     }
 
     public List<ImunizacaoModel> listarTodasImunizacoesPaciente(Long pacienteId){
+
+        boolean existeIdPaciente = repository.existsByPacienteId(pacienteId);
+
+        if(!existeIdPaciente){
+            throw new RuntimeException("Id do paciente não encontrado: " + pacienteId);
+        }
+
         return repository.findByPacienteId(pacienteId);
     }
 
