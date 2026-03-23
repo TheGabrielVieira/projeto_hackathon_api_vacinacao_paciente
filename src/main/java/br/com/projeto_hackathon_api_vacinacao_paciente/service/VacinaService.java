@@ -1,9 +1,11 @@
 package br.com.projeto_hackathon_api_vacinacao_paciente.service;
-import br.com.projeto_hackathon_api_vacinacao_paciente.model.VacinaModel;
-import br.com.projeto_hackathon_api_vacinacao_paciente.repository.VacinaRepository;
-import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Service;
+
+import br.com.projeto_hackathon_api_vacinacao_paciente.model.VacinaModel;
+import br.com.projeto_hackathon_api_vacinacao_paciente.repository.VacinaRepository;
 
 @Service
 public class VacinaService {
