@@ -4,6 +4,8 @@ import br.com.projeto_hackathon_api_vacinacao_paciente.dto.PacienteRequestDTO;
 import br.com.projeto_hackathon_api_vacinacao_paciente.dto.PacienteResponseDTO;
 import br.com.projeto_hackathon_api_vacinacao_paciente.model.PacienteModel;
 import br.com.projeto_hackathon_api_vacinacao_paciente.repository.PacienteRepository;
+
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -68,4 +70,6 @@ public class PacienteService {
     public void deletar(Long id) {
         repository.deleteById(id);
     }
+
+
 }
