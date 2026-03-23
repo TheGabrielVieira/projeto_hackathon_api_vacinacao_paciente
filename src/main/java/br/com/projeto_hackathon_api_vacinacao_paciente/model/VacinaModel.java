@@ -28,6 +28,9 @@ public class VacinaModel {
     @Convert(converter = PublicoAlvoConverter.class)
     private PublicoAlvo publicoAlvo;
 
+    @Column(name = "limite_aplicacao")
+    private Integer limiteAplicacao;
+
     public VacinaModel() {}
 
     public Long getIdVacina() {
