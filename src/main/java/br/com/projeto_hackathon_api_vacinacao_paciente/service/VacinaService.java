@@ -1,45 +1,48 @@
 package br.com.projeto_hackathon_api_vacinacao_paciente.service;
-
-import java.util.List;
-import org.springframework.stereotype.Service;
-
-import br.com.projeto_hackathon_api_vacinacao_paciente.model.PublicoAlvo;
 import br.com.projeto_hackathon_api_vacinacao_paciente.model.VacinaModel;
 import br.com.projeto_hackathon_api_vacinacao_paciente.repository.VacinaRepository;
+import org.springframework.stereotype.Service;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class VacinaService {
 
-    private final VacinaRepository repository;
+    private final VacinaRepository vacinaRepository;
 
-    public VacinaService(VacinaRepository repository) {
-        this.repository = repository;
+    public VacinaService(VacinaRepository vacinaRepository) {
+        this.vacinaRepository = vacinaRepository;
     }
 
-    public List<VacinaModel> listarTodos(){
-        return repository.findAll();
+    public List<VacinaModel> consultarTodas() {
+        return vacinaRepository.findAll();
     }
 
-    public List<VacinaModel> listarVacinasPraFaixaEtaria(String faixa){
+    public List<VacinaModel> consultarPorPublico(VacinaModel.PublicoAlvo publicoAlvo) {
+        return vacinaRepository.findByPublicoAlvo(publicoAlvo);
+    }
 
-        PublicoAlvo publico;
+    // Idade (em meses)
+    public List<VacinaModel> consultarPorIdadeMaior(int meses) {
+        return vacinaRepository.findAll()
+                .stream()
+                .filter(vacina -> getIdadeRecomendada(vacina) > meses)
+                .collect(Collectors.toList());
+    }
 
-        try {
-            publico = PublicoAlvo.valueOf(faixa.toUpperCase());
-        } catch (IllegalArgumentException e) {
-            throw new RuntimeException("Faixa etária inválida. Use: CRIANCA, ADOLESCENTE, ADULTO, GESTANTE");
+    private int getIdadeRecomendada(VacinaModel vacina) {
+
+        switch (vacina.getPublicoAlvo()) {
+            case CRIANÇA:
+                return 12; // exemplo
+            case ADOLESCENTE:
+                return 144; // 12 anos
+            case ADULTO:
+                return 216; // 18 anos
+            case GESTANTE:
+                return 240; // exemplo
+            default:
+                return 0;
         }
-
-        return repository.findByPublicoAlvo(publico);
     }
-
-    public List<VacinaModel> listarVacinasAcimaIdade(int meses){
-
-        return repository.findByLimiteAplicacaoGreaterThan(meses);
-    }
-
-
-
-
-
 }
